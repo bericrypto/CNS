@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diffie-Hellman Key Exchange</title>
+<script>
+function generateKeys() {    // Get prime (p) and base (g) from user input
+    const prime = parseInt(document.getElementById("prime").value);
+    const base = parseInt(document.getElementById("base").value);
+    const alicePK = parseInt(document.getElementById("alicePrivateInput").value);
+    const bobPK = parseInt(document.getElementById("bobPrivateInput").value);
+
+    const alicePubK = BigInt(base) ** BigInt(alicePK) % BigInt(prime); // Alice's public key
+    const bobPubK = BigInt(base) ** BigInt(bobPK) % BigInt(prime); // Bob's public key
+    const aliceSharedKey = BigInt(bobPubK) ** BigInt(alicePK) % BigInt(prime); // Alice's shared key
+    const bobSharedKey = BigInt(alicePubK) ** BigInt(bobPK) % BigInt(prime); // Bob's shared key
+
+    // Display results
+    document.getElementById("alicePublic").innerHTML = alicePubK;
+    document.getElementById("bobPublic").innerHTML = bobPubK;
+    document.getElementById("aliceShared").innerHTML = aliceSharedKey;
+    document.getElementById("bobShared").innerHTML = bobSharedKey;
+}
+</script>
+</head>
+<body>
+  <h1>Diffie-Hellman Key Exchange</h1>
+  <label for="prime">Enter Prime (p):</label>
+  <input type="number" id="prime" name="prime" required><br><br>
+  <label for="base">Enter Base (g):</label>
+  <input type="number" id="base" name="base" required><br><br>
+  <label for="alicePrivateInput">Alice's Private Key:</label>
+  <input type="number" id="alicePrivateInput" name="alicePrivateInput" required><br><br>
+  <label for="bobPrivateInput">Bob's Private Key:</label>
+  <input type="number" id="bobPrivateInput" name="bobPrivateInput" required><br><br>
+  <button onclick="generateKeys()">Perform Key Exchange</button>
+  <div>
+    <h2>Public and Shared Keys</h2>
+    <div>
+      <h3>Alice's Keys</h3>
+      <p>Public Key: <span id="alicePublic"></span></p>
+      <p>Shared Key: <span id="aliceShared"></span></p>
+    </div>
+    <div>
+      <h3>Bob's Keys</h3>
+      <p>Public Key: <span id="bobPublic"></span></p>
+      <p>Shared Key: <span id="bobShared"></span></p>
+    </div>
+  </div>
+</body>
+</html>
+
